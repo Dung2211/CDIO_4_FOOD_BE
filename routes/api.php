@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CauHinhQuanAnController;
 use App\Http\Controllers\ChiTietDonHangController;
 use App\Http\Controllers\ChucVuController;
 use App\Http\Controllers\ChucNangController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\QuanAnController;
 use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ShipperController;
 use App\Http\Controllers\ThongKeAdminController;
+use App\Http\Controllers\ThongkeController;
 use App\Http\Controllers\TinhThanhController;
 use App\Http\Controllers\VoucherController;
 use App\Models\ChiTietDonHang;
@@ -157,11 +159,18 @@ Route::post('/quan-an/voucher/update', [VoucherController::class, 'updateQuanAnV
 Route::post('/quan-an/voucher/delete', [VoucherController::class, 'deleteQuanAnVoucher'])->middleware('quanAnMiddle');
 Route::post('/quan-an/voucher/change', [VoucherController::class, 'doiTrangThaiQuanAnVoucher'])->middleware('quanAnMiddle');
 
-// quan an / dơn hàng
+
 Route::get('/quan-an/don-hang/data', [DonHangController::class, 'getDonHangQuanAn'])->middleware('quanAnMiddle');
 Route::post('/quan-an/don-hang/da-xong', [DonHangController::class, 'daXongDonHang'])->middleware('quanAnMiddle');
 Route::post('/quan-an/don-hang/chi-tiet', [DonHangController::class, 'chiTietDonHangQuanAn'])->middleware('quanAnMiddle');
 
+// quan an / Cấu hình
+Route::post('/quan-an/cau-hinh', [CauHinhQuanAnController::class, 'cauHinhQuanAn'])->middleware('quanAnMiddle');
+Route::get('/quan-an/cau-hinh/data', [CauHinhQuanAnController::class, 'cauHinhQuanAnData'])->middleware('quanAnMiddle');
+
+// quan an / Thống kê
+Route::post('/quan-an/thong-ke/doanh-thu', [ThongkeController::class, 'thongkeDoanhThu'])->middleware('quanAnMiddle');
+Route::post('/quan-an/thong-ke/mon-an', [ThongkeController::class, 'thongkeMonAn'])->middleware('quanAnMiddle');
 
 
 
@@ -190,6 +199,8 @@ Route::get('/shipper/don-hang/data', [DonHangController::class, 'getDonHangShipp
 Route::get('/shipper/don-hang/data-dang-giao', [DonHangController::class, 'getDonHangShipperDangGiao'])->middleware('shipperMiddle');
 Route::post('/shipper/don-hang/nhan-don', [DonHangController::class, 'nhanDonDonHangShipper'])->middleware('shipperMiddle');
 Route::post('/shipper/don-hang/hoan-thanh', [DonHangController::class, 'hoanThanhDonHangShipper'])->middleware('shipperMiddle');
+
+Route::post('/shipper/don-hang/thong-ke', [ThongkeController::class, 'dataThongKeShipper'])->middleware('shipperMiddle');
 
 
 

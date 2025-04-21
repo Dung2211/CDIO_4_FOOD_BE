@@ -74,6 +74,7 @@ class ChiTietDonHangController extends Controller
                 'size'    => 1
             ]
         ]);
+
         // return ($dia_chi_quan->dia_chi);
         $body = $response_quan->getBody()->getContents();
         $response_quan = json_decode($body, true);

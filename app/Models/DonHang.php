@@ -23,9 +23,11 @@ class DonHang extends Model
         'tinh_trang',
     ];
 
-    const TINH_TRANG_CHUA_NHAN = 0;
-    const TINH_TRANG_DA_NHAN = 1;
-    const TINH_TRANG_QUAN_DANG_LAM = 2;
-    const TINH_TRANG_DA_GIAO = 3;
-    const TINH_TRANG_DA_HUY = 4;
+    const TINH_TRANG_CHUA_NHAN      = 0;
+    const TINH_TRANG_DA_NHAN        = 1;
+    const TINH_TRANG_QUAN_DANG_LAM  = 2;
+    const TINH_TRANG_DA_GIAO        = 3;
+    const TINH_TRANG_DA_HUY         = 4;
+    const DA_THANH_TOAN             = 1;
+    const CHUA_THANH_TOAN           = 0;
 }
