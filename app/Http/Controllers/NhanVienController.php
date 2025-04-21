@@ -10,6 +10,7 @@ use App\Http\Requests\NhanVienDoiMatKhauRequest;
 use App\Http\Requests\NhanVienUpdateProfileRequest;
 use App\Http\Requests\updateNhanVienRequest;
 use App\Models\NhanVien;
+use App\Models\PhanQuyen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -114,6 +115,18 @@ class NhanVienController extends Controller
 
     public function getData()
     {
+        $id_chuc_nang = 1;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = NhanVien::join('chuc_vus', 'nhan_viens.id_chuc_vu', 'chuc_vus.id')
             ->select('nhan_viens.*', 'chuc_vus.ten_chuc_vu')
             ->get();
@@ -124,6 +137,18 @@ class NhanVienController extends Controller
 
     public function store(createNhanVienRequest $request)
     {
+        $id_chuc_nang = 2;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $nhanVien = NhanVien::create([
             'email'         => $request->email,
             'ho_va_ten'     => $request->ho_va_ten,
@@ -142,6 +167,18 @@ class NhanVienController extends Controller
 
     public function update(updateNhanVienRequest $request)
     {
+        $id_chuc_nang = 3;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $nhanVien = NhanVien::where('id', $request->id)->update([
             'email'         => $request->email,
             'ho_va_ten'     => $request->ho_va_ten,
@@ -160,6 +197,18 @@ class NhanVienController extends Controller
 
     public function destroy(deleteNhanVienRequest $request)
     {
+        $id_chuc_nang = 4;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $user = Auth::guard('sanctum')->user();
         $nhanVien = NhanVien::where('id', $request->id)->first();
         if ($nhanVien->is_master == 1) {
@@ -183,6 +232,18 @@ class NhanVienController extends Controller
 
     public function changeStatus(deleteNhanVienRequest $request)
     {
+        $id_chuc_nang = 5;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $nhanVien = NhanVien::where('id', $request->id)->first();
         if ($nhanVien->tinh_trang == 1) {
             $nhanVien->tinh_trang = 0;

@@ -9,6 +9,7 @@ use App\Http\Requests\DoiTrangThaiVoucherRequest;
 use App\Http\Requests\ThemMoiVoucherRequest;
 use App\Http\Requests\updateQuanAnVoucherRequest;
 use App\Http\Requests\XoaVoucherRequest;
+use App\Models\PhanQuyen;
 use App\Models\QuanAn;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
@@ -18,6 +19,18 @@ class VoucherController extends Controller
 {
     public function getData()
     {
+        $id_chuc_nang = 17;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $check = Auth::guard('sanctum')->user();
         if ($check) {
             $data = Voucher::all();
@@ -149,6 +162,18 @@ class VoucherController extends Controller
 
     public function store(ThemMoiVoucherRequest $request)
     {
+        $id_chuc_nang = 18;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $check = Auth::guard('sanctum')->user();
         if (!$check) {
             return response()->json([
@@ -175,6 +200,18 @@ class VoucherController extends Controller
     }
     public function destroy(XoaVoucherRequest $request)
     {
+        $id_chuc_nang = 20;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $check = Auth::guard('sanctum')->user();
         if (!$check) {
             return response()->json([
@@ -199,6 +236,18 @@ class VoucherController extends Controller
     }
     public function update(CapNhatVoucherRequest $request)
     {
+        $id_chuc_nang = 19;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $check = Auth::guard('sanctum')->user();
         if (!$check) {
             return response()->json([
@@ -233,6 +282,18 @@ class VoucherController extends Controller
     }
     public function changeStatus(DoiTrangThaiVoucherRequest $request)
     {
+        $id_chuc_nang = 21;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $check = Auth::guard('sanctum')->user();
         if (!$check) {
             return response()->json([

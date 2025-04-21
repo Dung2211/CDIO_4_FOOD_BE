@@ -25,6 +25,7 @@ use App\Models\ChiTietDanhMucQuanAn;
 use App\Models\DanhMuc;
 use App\Models\DiaChi;
 use App\Models\MonAn;
+use App\Models\PhanQuyen;
 use App\Models\QuanAn;
 use App\Models\QuanHuyen;
 use Illuminate\Http\Request;
@@ -69,6 +70,18 @@ class QuanAnController extends Controller
 
     public function getData()
     {
+        $id_chuc_nang = 28;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = QuanAn::join('quan_huyens', 'quan_ans.id_quan_huyen', 'quan_huyens.id')
                         ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
                         ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
@@ -89,6 +102,18 @@ class QuanAnController extends Controller
 
     public function store(QuanAnThemMoiRequest $request)
     {
+        $id_chuc_nang = 29;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         QuanAn::create([
             'email'                 => $request->email,
             'password'              => $request->password,
@@ -110,6 +135,18 @@ class QuanAnController extends Controller
 
     public function update(QuanAnUpdateRequest $request)
     {
+        $id_chuc_nang = 30;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = QuanAn::find($request->id);
         if ($data) {
             $data->update([
@@ -137,6 +174,18 @@ class QuanAnController extends Controller
     }
     public function destroy(QuanAnDeleteRequest $request)
     {
+        $id_chuc_nang = 31;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = QuanAn::find($request->id);
         if ($data) {
             $data->delete();
@@ -153,6 +202,18 @@ class QuanAnController extends Controller
     }
     public function changeStatus(ChangeStatusQuanAnrequest $request)
     {
+        $id_chuc_nang = 32;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $check = Auth::guard('sanctum')->user();
         if (!$check) {
             return response()->json([
@@ -180,6 +241,18 @@ class QuanAnController extends Controller
     }
     public function changeActive(changeActiveQuanAnrequest $request)
     {
+        $id_chuc_nang = 27;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $quan_an = QuanAn::find($request->id);
 
         if ($quan_an->is_active == 0) {
