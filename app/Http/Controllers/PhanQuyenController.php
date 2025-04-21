@@ -6,11 +6,24 @@ use App\Http\Requests\deletePhanQuyenRequest;
 use App\Http\Requests\PhanQuyenRequest;
 use App\Models\PhanQuyen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PhanQuyenController extends Controller
 {
     public function getData($id_chuc_vu)
     {
+        $id_chuc_nang = 41;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
             ->join('chuc_nangs', 'phan_quyens.id_chuc_nang', 'chuc_nangs.id')
             ->join('chuc_vus', 'phan_quyens.id_chuc_vu', 'chuc_vus.id')
@@ -23,6 +36,18 @@ class PhanQuyenController extends Controller
 
     public function store(PhanQuyenRequest $request)
     {
+        $id_chuc_nang = 38;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = PhanQuyen::firstOrCreate([
             'id_chuc_vu'  => $request->id_chuc_vu,
             'id_chuc_nang'  => $request->id_chuc_nang,
@@ -36,6 +61,18 @@ class PhanQuyenController extends Controller
 
     public function destroy(deletePhanQuyenRequest $request)
     {
+        $id_chuc_nang = 39;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = PhanQuyen::where('id_chuc_vu', $request->id_chuc_vu)
             ->where('id_chuc_nang', $request->id_chuc_nang)
             ->delete();

@@ -17,6 +17,7 @@ use App\Http\Requests\updateProFileShipperRequest;
 use App\Http\Requests\XoaShipperRequest;
 use App\Models\DiaChi;
 use App\Models\DonHang;
+use App\Models\PhanQuyen;
 use App\Models\Shipper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,18 @@ class ShipperController extends Controller
     }
     public function getData()
     {
+        $id_chuc_nang = 6;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $shipper = Shipper::get();
         return response()->json([
             'data' => $shipper
@@ -65,6 +78,18 @@ class ShipperController extends Controller
     }
     public function store(ThemMoiShipperRequest $request)
     {
+        $id_chuc_nang = 7;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         Shipper::create([
             'ho_va_ten'     => $request->ho_va_ten,
             'so_dien_thoai' => $request->so_dien_thoai,
@@ -82,6 +107,18 @@ class ShipperController extends Controller
 
     public function destroy(XoaShipperRequest $request)
     {
+        $id_chuc_nang = 9;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         Shipper::where('id', $request->id)->delete();
         return response()->json([
             'status'    =>  1,
@@ -91,6 +128,18 @@ class ShipperController extends Controller
 
     public function update(CapNhatShipperRequest $request)
     {
+        $id_chuc_nang = 8;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         Shipper::where('id', $request->id)->update([
             'ho_va_ten'     => $request->ho_va_ten,
             'email'         => $request->email,
@@ -107,6 +156,18 @@ class ShipperController extends Controller
 
     public function changeStatus(changeShipperRequest  $request)
     {
+        $id_chuc_nang = 10;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $shipper = Shipper::where('id', $request->id)->first();
 
         if ($shipper->is_open == 1) {
@@ -124,6 +185,18 @@ class ShipperController extends Controller
 
     public function active(activeShipperRequest $request)
     {
+        $id_chuc_nang = 11;
+        $login = Auth::guard('sanctum')->user();
+        $id_chuc_vu = $login->id_chuc_vu;
+        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
+                                ->where('id_chuc_nang', $id_chuc_nang)
+                                ->first();
+        if (!$check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $shipper = Shipper::where('id', $request->id)->first();
         if ($shipper) {
             if ($shipper->is_active) {

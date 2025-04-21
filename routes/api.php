@@ -13,6 +13,7 @@ use App\Http\Controllers\PhanQuyenController;
 use App\Http\Controllers\QuanAnController;
 use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ShipperController;
+use App\Http\Controllers\ThongKeAdminController;
 use App\Http\Controllers\TinhThanhController;
 use App\Http\Controllers\VoucherController;
 use App\Models\ChiTietDonHang;
@@ -116,6 +117,10 @@ Route::post('/admin/nhan-vien/change-status', [NhanVienController::class, 'chang
 Route::get('/admin/don-hang/data', [DonHangController::class, 'getDonHangAdmin'])->middleware('nhanVienMiddle');
 Route::post('/admin/don-hang/data-chi-tiet', [DonHangController::class, 'getChiTietDonHangAdmin'])->middleware('nhanVienMiddle');
 Route::post('/admin/don-hang/huy-don-hang', [DonHangController::class, 'huyDonHangAdmin'])->middleware('nhanVienMiddle');
+
+// Admin - thống kê
+Route::post('/admin/thong-ke/thong-ke-tien-khach-hang', [ThongKeAdminController::class, 'thongKeTienKhachHang'])->middleware('nhanVienMiddle');
+Route::post('/admin/thong-ke/thong-ke-tien-quan-an', [ThongKeAdminController::class, 'thongKeTienQuanAn'])->middleware('nhanVienMiddle');
 
 
 
