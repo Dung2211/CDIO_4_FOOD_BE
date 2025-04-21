@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\deletePhanQuyenRequest;
+use App\Http\Requests\PhanQuyenRequest;
 use App\Models\PhanQuyen;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class PhanQuyenController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(PhanQuyenRequest $request)
     {
         $data = PhanQuyen::firstOrCreate([
             'id_chuc_vu'  => $request->id_chuc_vu,
