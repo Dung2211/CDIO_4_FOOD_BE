@@ -21,9 +21,48 @@ use App\Models\PhanQuyen;
 use App\Models\Shipper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ShipperController extends Controller
 {
+    public function DangXuat()
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            DB::table('personal_access_tokens')
+                ->where('id', $user->currentAccessToken()->id)
+                ->delete();
+            return response()->json([
+                'status'  => 1,
+                'message' => "Đăng xuất thành công",
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => "Có lỗi xảy ra",
+            ]);
+        }
+    }
+
+    public function DangXuatAll()
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            $ds_token = $user->tokens;
+            foreach ($ds_token as $key => $value) {
+                $value->delete();
+            }
+            return response()->json([
+                'status'  => 1,
+                'message' => "Đăng xuất thành công",
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => "Có lỗi xảy ra",
+            ]);
+        }
+    }
     public function checkTokenShipper()
     {
         $user_login = Auth::guard('sanctum')->user();
@@ -63,8 +102,8 @@ class ShipperController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -82,8 +121,8 @@ class ShipperController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -111,8 +150,8 @@ class ShipperController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -132,8 +171,8 @@ class ShipperController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -160,8 +199,8 @@ class ShipperController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -189,8 +228,8 @@ class ShipperController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,

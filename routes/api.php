@@ -22,16 +22,15 @@ use App\Models\ChiTietDonHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// =========================================================================================================
 // ===========================================    ADMIN   ===============================================
-// =========================================================================================================
-
 // Admin
 Route::get('/admin/check-token', [NhanVienController::class, 'checkToken']);
 Route::post('/admin/dang-nhap', [NhanVienController::class, 'Login']);
 Route::get('/admin/profile', [NhanVienController::class, 'profile'])->middleware('nhanVienMiddle');
 Route::post('/admin/doi-mat-khau', [NhanVienController::class, 'doiMatKhau'])->middleware('nhanVienMiddle');
 Route::post('/admin/update-profile', [NhanVienController::class, 'updateProfile'])->middleware('nhanVienMiddle');
+Route::get('/admin/dang-xuat', [NhanVienController::class, 'DangXuat']);
+Route::get('/admin/dang-xuat-tat-ca', [NhanVienController::class, 'DangXuatAll']);
 
 // Admin - CHỨC VỤ
 Route::get('/admin/chuc-vu/data', [ChucVuController::class, 'getData'])->middleware('nhanVienMiddle');
@@ -126,12 +125,14 @@ Route::post('/admin/thong-ke/thong-ke-tien-quan-an', [ThongKeAdminController::cl
 
 
 
-// =========================================================================================================
 // ===========================================    QUÁN ĂN    ===============================================
-// =========================================================================================================
 Route::get('/quan-an/check-token', [QuanAnController::class, 'checkTokenQuanAn']);
 Route::post('/quan-an/dang-nhap', [QuanAnController::class, 'Login']);
 Route::post('/quan-an/dang-ky', [QuanAnController::class, 'dangKy']);
+
+
+Route::get('/quan-an/dang-xuat', [QuanAnController::class, 'DangXuat']);
+Route::get('/quan-an/dang-xuat-tat-ca', [QuanAnController::class, 'DangXuatAll']);
 
 Route::get('/quan-an/data-login', [QuanAnController::class, 'getDataQuanAn'])->middleware('quanAnMiddle');
 Route::post('/quan-an/update-profile', [QuanAnController::class, 'updateProfile'])->middleware('quanAnMiddle');
@@ -174,20 +175,18 @@ Route::post('/quan-an/thong-ke/mon-an', [ThongkeController::class, 'thongkeMonAn
 
 
 
-
-
-// =========================================================================================================
 // ===========================================    SHIPPER    ===============================================
-// =========================================================================================================
-
 // SHIPPER - profile
 Route::get('/shipper/check-token', [ShipperController::class, 'checkTokenShipper']);
 Route::post('/shipper/dang-nhap', [ShipperController::class, 'Login']);
 Route::post('/shipper/dang-ky', [ShipperController::class, 'Register']);
+
+Route::get('/shipper/dang-xuat', [ShipperController::class, 'DangXuat']);
+Route::get('/shipper/dang-xuat-tat-ca', [ShipperController::class, 'DangXuatAll']);
+
 Route::get('/shipper/data-login', [ShipperController::class, 'dataSP'])->middleware('shipperMiddle');
 Route::post('/shipper/update-profile', [ShipperController::class, 'updateSP'])->middleware('shipperMiddle');
 Route::post('/shipper/update-password', [ShipperController::class, 'updatePassword'])->middleware('shipperMiddle');
-
 
 Route::get('/shipper/don-hang/data-nhan', [ShipperController::class, 'dataDonHangNhan'])->middleware('shipperMiddle');
 Route::get('/shipper/don-hang/data-da-giao', [ShipperController::class, 'dataDaGiao'])->middleware('shipperMiddle');
@@ -203,16 +202,13 @@ Route::post('/shipper/don-hang/hoan-thanh', [DonHangController::class, 'hoanThan
 Route::post('/shipper/don-hang/thong-ke', [ThongkeController::class, 'dataThongKeShipper'])->middleware('shipperMiddle');
 
 
-
-
-
-// =========================================================================================================
 // ===========================================    KHÁCH HÀNG    ===============================================
-// =========================================================================================================
 // khach-hang/dang nhập
 Route::get('/khach-hang/check-token', [KhachHangController::class, 'checkToken']);
 Route::post('/khach-hang/dang-nhap', [KhachHangController::class, 'Login']);
-Route::post('/khach-hang/dang-xuat', [KhachHangController::class, 'DangXuat']);
+Route::get('/khach-hang/dang-xuat', [KhachHangController::class, 'DangXuat']);
+Route::get('/khach-hang/dang-xuat-tat-ca', [KhachHangController::class, 'DangXuatAll']);
+
 Route::post('/khach-hang/doi-mat-khau', [KhachHangController::class, 'doiMatKhau']);
 Route::get('/khach-hang/quan-an/data-open', [QuanAnController::class, 'getDataOpen']);
 Route::get('/khach-hang/data-mon-an', [KhachHangController::class, 'getMonAn']);
@@ -228,9 +224,9 @@ Route::post('/khach-hang/dia-chi/create', [KhachHangController::class, 'storeDia
 Route::post('/khach-hang/dia-chi/update', [KhachHangController::class, 'updateDiaChi'])->middleware('khachHangMiddle');
 Route::post('/khach-hang/dia-chi/delete', [KhachHangController::class, 'destroyDiaChi'])->middleware('khachHangMiddle');
 
-
 // kh-trang chủ
 Route::get('/khach-hang/trang-chu/data', [ClientHomeController::class, 'getDataHome']);
+Route::get('/khach-hang/quan-an/data', [ClientHomeController::class, 'getDataQuanAn'])->middleware('khachHangMiddle');
 
 // Khach-hang/don-dat-hang
 Route::get('/khach-hang/don-dat-hang/{id_quan_an}', [ChiTietDonHangController::class, 'getDonDatHang']);

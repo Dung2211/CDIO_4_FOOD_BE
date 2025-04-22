@@ -17,6 +17,8 @@ class Voucher extends Model
         'so_tien_toi_da',
         'don_hang_toi_thieu',
         'tinh_trang',
+        'hinh_anh',
+        'ten_voucher',
     ];
 
     const GIAM_PHAN_TRAM = 1;

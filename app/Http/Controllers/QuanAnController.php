@@ -30,9 +30,48 @@ use App\Models\QuanAn;
 use App\Models\QuanHuyen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class QuanAnController extends Controller
 {
+    public function DangXuat()
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            DB::table('personal_access_tokens')
+                ->where('id', $user->currentAccessToken()->id)
+                ->delete();
+            return response()->json([
+                'status'  => 1,
+                'message' => "Đăng xuất thành công",
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => "Có lỗi xảy ra",
+            ]);
+        }
+    }
+
+    public function DangXuatAll()
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            $ds_token = $user->tokens;
+            foreach ($ds_token as $key => $value) {
+                $value->delete();
+            }
+            return response()->json([
+                'status'  => 1,
+                'message' => "Đăng xuất thành công",
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => "Có lỗi xảy ra",
+            ]);
+        }
+    }
     public function checkTokenQuanAn()
     {
         $user_login = Auth::guard('sanctum')->user();

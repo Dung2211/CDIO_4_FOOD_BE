@@ -23,6 +23,7 @@ use App\Models\QuanHuyen;
 use App\Models\TinhThanh;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class KhachHangController extends Controller
@@ -50,7 +51,7 @@ class KhachHangController extends Controller
             'response'  => $request->code,
         ]);
 
-        if($res->json()['success'] == false){
+        if ($res->json()['success'] == false) {
             return response()->json([
                 'status'    => 0,
                 'message'   => 'Captcha không hợp lệ!'
@@ -80,8 +81,8 @@ class KhachHangController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -109,8 +110,8 @@ class KhachHangController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -144,8 +145,8 @@ class KhachHangController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -165,8 +166,8 @@ class KhachHangController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -209,8 +210,8 @@ class KhachHangController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -309,11 +310,11 @@ class KhachHangController extends Controller
     {
         $user = Auth::guard('sanctum')->user();
         $data = DiaChi::where('id_khach_hang', $user->id)
-                        ->join('khach_hangs', 'dia_chis.id_khach_hang', 'khach_hangs.id')
-                        ->join('quan_huyens', 'dia_chis.id_quan_huyen', 'quan_huyens.id')
-                        ->join('tinh_thanhs', 'quan_huyens.id_tinh_thanh', 'tinh_thanhs.id')
-                        ->select('dia_chis.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
-                        ->get();
+            ->join('khach_hangs', 'dia_chis.id_khach_hang', 'khach_hangs.id')
+            ->join('quan_huyens', 'dia_chis.id_quan_huyen', 'quan_huyens.id')
+            ->join('tinh_thanhs', 'quan_huyens.id_tinh_thanh', 'tinh_thanhs.id')
+            ->select('dia_chis.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
+            ->get();
         return response()->json([
             'status' => 1,
             'data' => $data
@@ -407,8 +408,8 @@ class KhachHangController extends Controller
     public function getDataQuanHuyen(Request $request)
     {
         $data = QuanHuyen::where('tinh_trang', 1)
-                        ->where('id_tinh_thanh', $request->id_tinh_thanh)
-                        ->get();
+            ->where('id_tinh_thanh', $request->id_tinh_thanh)
+            ->get();
         return response()->json([
             'data'  => $data
         ]);
@@ -416,6 +417,40 @@ class KhachHangController extends Controller
 
     public function DangXuat()
     {
-        // Đăng xuất khách hàng
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            DB::table('personal_access_tokens')
+                ->where('id', $user->currentAccessToken()->id)
+                ->delete();
+            return response()->json([
+                'status'  => 1,
+                'message' => "Đăng xuất thành công",
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => "Có lỗi xảy ra",
+            ]);
+        }
+    }
+
+    public function DangXuatAll()
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            $ds_token = $user->tokens;
+            foreach ($ds_token as $key => $value) {
+                $value->delete();
+            }
+            return response()->json([
+                'status'  => 1,
+                'message' => "Đăng xuất thành công",
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => "Có lỗi xảy ra",
+            ]);
+        }
     }
 }
