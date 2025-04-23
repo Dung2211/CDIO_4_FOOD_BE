@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Auth;
 
 class DanhMucController extends Controller
 {
+    public function search(Request $request){
+        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+        $data   =  DanhMuc::where('ten_danh_muc', 'like', $noi_dung_tim)
+                            ->get();
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
     public function getData()
     {
         $id_chuc_nang = 22;

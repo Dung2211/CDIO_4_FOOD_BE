@@ -17,6 +17,14 @@ use Illuminate\Support\Facades\DB;
 
 class NhanVienController extends Controller
 {
+    public function search(Request $request){
+        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+        $data   =  NhanVien::where('ho_va_ten', 'like', $noi_dung_tim)
+                            ->get();
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
     public function DangXuat()
     {
         $user = Auth::guard('sanctum')->user();

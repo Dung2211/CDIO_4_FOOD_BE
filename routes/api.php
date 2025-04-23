@@ -21,7 +21,13 @@ use App\Http\Controllers\VoucherController;
 use App\Models\ChiTietDonHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+//Tìm Kiếm
+Route::post('/khach-hang/mon-an/tim-kiem', [MonAnController::class, 'searchNguoiDung']);
+Route::post('/admin/quan-an/tim-kiem', [QuanAnController::class, 'search']);
+Route::post('/admin/danh-muc/tim-kiem', [DanhMucController::class, 'search']);
+Route::post('/admin/nhan-vien/tim-kiem', [NhanVienController::class, 'search']);
+Route::post('/admin/shipper/tim-kiem', [ShipperController::class, 'search']);
+Route::post('/admin/khach-hang/tim-kiem', [KhachHangController::class, 'search']);
 // ===========================================    ADMIN   ===============================================
 // Admin
 Route::get('/admin/check-token', [NhanVienController::class, 'checkToken']);
