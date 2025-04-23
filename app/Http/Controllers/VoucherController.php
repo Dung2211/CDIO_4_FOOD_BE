@@ -65,6 +65,8 @@ class VoucherController extends Controller
         } else {
             Voucher::create([
                 'ma_code'               => $request->ma_code,
+                'ten_voucher'           => $request->ten_voucher,
+                'hinh_anh'              => $request->hinh_anh,
                 'thoi_gian_bat_dau'     => $request->thoi_gian_bat_dau,
                 'thoi_gian_ket_thuc'    => $request->thoi_gian_ket_thuc,
                 'loai_giam'             => $request->loai_giam,
@@ -92,6 +94,8 @@ class VoucherController extends Controller
         } else {
             Voucher::find($request->id)->update([
                 'ma_code'               => $request->ma_code,
+                'ten_voucher'           => $request->ten_voucher,
+                'hinh_anh'              => $request->hinh_anh,
                 'thoi_gian_bat_dau'     => $request->thoi_gian_bat_dau,
                 'thoi_gian_ket_thuc'    => $request->thoi_gian_ket_thuc,
                 'loai_giam'             => $request->loai_giam,
@@ -183,6 +187,8 @@ class VoucherController extends Controller
         } else {
             $data = Voucher::create([
                 'ma_code'           => $request->ma_code,
+                'ten_voucher'           => $request->ten_voucher,
+                'hinh_anh'              => $request->hinh_anh,
                 'id_quan_an'        => $check->id,
                 'thoi_gian_bat_dau' => $request->thoi_gian_bat_dau,
                 'thoi_gian_ket_thuc' => $request->thoi_gian_ket_thuc,
@@ -259,6 +265,8 @@ class VoucherController extends Controller
             if ($data) {
                 $data->update([
                     'ma_code'               => $request->ma_code,
+                    'ten_voucher'           => $request->ten_voucher,
+                    'hinh_anh'              => $request->hinh_anh,
                     'thoi_gian_bat_dau'     => $request->thoi_gian_bat_dau,
                     'thoi_gian_ket_thuc'    => $request->thoi_gian_ket_thuc,
                     'id_quan_an'            => $check->id,

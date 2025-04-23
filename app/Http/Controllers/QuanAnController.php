@@ -314,10 +314,11 @@ class QuanAnController extends Controller
     {
         $user = Auth::guard('sanctum')->user();
         $data = DanhMuc::join('chi_tiet_danh_muc_quan_ans', 'danh_mucs.id', 'chi_tiet_danh_muc_quan_ans.id_danh_muc')
-            ->join('quan_ans', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.id')
-            ->where('chi_tiet_danh_muc_quan_ans.id_quan_an', $user->id)
-            ->select('danh_mucs.*', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.ten_quan_an')
-            ->get();
+                        ->where('chi_tiet_danh_muc_quan_ans.id_quan_an', $user->id)
+                        ->join('quan_ans', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.id')
+                        ->leftjoin('danh_mucs as B', 'B.id', 'danh_mucs.id_danh_muc_cha')
+                        ->select('danh_mucs.*', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.ten_quan_an', 'B.ten_danh_muc as ten_danh_muc_cha')
+                        ->get();
 
         return response()->json([
             'data'      => $data

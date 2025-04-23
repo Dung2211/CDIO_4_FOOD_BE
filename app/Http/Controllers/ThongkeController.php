@@ -89,7 +89,7 @@ class ThongkeController extends Controller
                             'dia_chis.dia_chi',
                             DB::raw('DATE_FORMAT(don_hangs.created_at, "%d/%m/%Y") as ngay_giao'),
                         )
-                        ->orderBy('don_hangs.created_at', 'desc')
+                        ->orderByDESC('don_hangs.created_at')
                         ->get();
 
         return response()->json([
