@@ -28,6 +28,14 @@ use Illuminate\Support\Facades\Http;
 
 class KhachHangController extends Controller
 {
+    public function search(Request $request){
+        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+        $data   =  KhachHang::where('ho_va_ten', 'like', $noi_dung_tim)
+                            ->get();
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
     public function checkToken()
     {
         $user_login = Auth::guard('sanctum')->user();

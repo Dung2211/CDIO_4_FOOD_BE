@@ -34,6 +34,31 @@ use Illuminate\Support\Facades\DB;
 
 class QuanAnController extends Controller
 {
+    public function searchNguoiDung(Request $request){
+        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+        $data = QuanAn::join('quan_huyens', 'quan_ans.id_quan_huyen', 'quan_huyens.id')
+        ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
+        ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
+        ->where('ten_quan_an', 'like', $noi_dung_tim)
+                            ->where('tinh_trang', 1)
+                            ->get();
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
+
+    public function search(Request $request){
+        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+        $data = QuanAn::join('quan_huyens', 'quan_ans.id_quan_huyen', 'quan_huyens.id')
+        ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
+        ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
+        ->where('ten_quan_an', 'like', $noi_dung_tim)
+                            ->get();
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
+
     public function DangXuat()
     {
         $user = Auth::guard('sanctum')->user();
