@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DonHang;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -1277,5 +1278,21 @@ class DonHangSeeder extends Seeder
                 'updated_at' => '2025-04-18 20:00:00',
             ],
         ]);
+
+        $data = DonHang::all();
+        foreach ($data as $key => $value) {
+            $value->ma_don_hang = "DH" . time() + $value->id;
+            $tinh_trang = random_int(0, 3);
+            $value->tinh_trang = $tinh_trang;
+            if ($tinh_trang == 0) {
+                $value->is_thanh_toan = 0;
+            } else {
+                $value->is_thanh_toan = random_int(0, 1);
+            }
+            $value->tien_hang = ceil(random_int(1000, 3000) / 100) * 100;
+            $value->phi_ship  = ceil(random_int(500, 1000) / 100) * 100;
+            $value->tong_tien = $value->tien_hang + $value->phi_ship;
+            $value->save();
+        }
     }
 }
