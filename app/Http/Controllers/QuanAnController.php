@@ -34,26 +34,28 @@ use Illuminate\Support\Facades\DB;
 
 class QuanAnController extends Controller
 {
-    public function searchNguoiDung(Request $request){
-        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+    public function searchNguoiDung(Request $request)
+    {
+        $noi_dung_tim = '%' . $request->noi_dung_tim . '%';
         $data = QuanAn::join('quan_huyens', 'quan_ans.id_quan_huyen', 'quan_huyens.id')
-        ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
-        ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
-        ->where('ten_quan_an', 'like', $noi_dung_tim)
-                            ->where('tinh_trang', 1)
-                            ->get();
+            ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
+            ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
+            ->where('ten_quan_an', 'like', $noi_dung_tim)
+            ->where('tinh_trang', 1)
+            ->get();
         return response()->json([
             'data'  => $data
         ]);
     }
 
-    public function search(Request $request){
-        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+    public function search(Request $request)
+    {
+        $noi_dung_tim = '%' . $request->noi_dung_tim . '%';
         $data = QuanAn::join('quan_huyens', 'quan_ans.id_quan_huyen', 'quan_huyens.id')
-        ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
-        ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
-        ->where('ten_quan_an', 'like', $noi_dung_tim)
-                            ->get();
+            ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
+            ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
+            ->where('ten_quan_an', 'like', $noi_dung_tim)
+            ->get();
         return response()->json([
             'data'  => $data
         ]);
@@ -138,8 +140,8 @@ class QuanAnController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -147,9 +149,9 @@ class QuanAnController extends Controller
             ]);
         }
         $data = QuanAn::join('quan_huyens', 'quan_ans.id_quan_huyen', 'quan_huyens.id')
-                        ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
-                        ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
-                        ->get();
+            ->join('tinh_thanhs', 'tinh_thanhs.id', 'quan_huyens.id_tinh_thanh')
+            ->select('quan_ans.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
+            ->get();
         return response()->json([
             'data' => $data
         ]);
@@ -170,8 +172,8 @@ class QuanAnController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -203,8 +205,8 @@ class QuanAnController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -242,8 +244,8 @@ class QuanAnController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -270,8 +272,8 @@ class QuanAnController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -309,8 +311,8 @@ class QuanAnController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -339,11 +341,11 @@ class QuanAnController extends Controller
     {
         $user = Auth::guard('sanctum')->user();
         $data = DanhMuc::join('chi_tiet_danh_muc_quan_ans', 'danh_mucs.id', 'chi_tiet_danh_muc_quan_ans.id_danh_muc')
-                        ->where('chi_tiet_danh_muc_quan_ans.id_quan_an', $user->id)
-                        ->join('quan_ans', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.id')
-                        ->leftjoin('danh_mucs as B', 'B.id', 'danh_mucs.id_danh_muc_cha')
-                        ->select('danh_mucs.*', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.ten_quan_an', 'B.ten_danh_muc as ten_danh_muc_cha')
-                        ->get();
+            ->where('chi_tiet_danh_muc_quan_ans.id_quan_an', $user->id)
+            ->join('quan_ans', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.id')
+            ->leftjoin('danh_mucs as B', 'B.id', 'danh_mucs.id_danh_muc_cha')
+            ->select('danh_mucs.*', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.ten_quan_an', 'B.ten_danh_muc as ten_danh_muc_cha')
+            ->get();
 
         return response()->json([
             'data'      => $data
@@ -352,15 +354,9 @@ class QuanAnController extends Controller
     public function getDataDanhMucCha()
     {
         $user = Auth::guard('sanctum')->user();
-        $data = DanhMuc::join('chi_tiet_danh_muc_quan_ans', 'danh_mucs.id', 'chi_tiet_danh_muc_quan_ans.id_danh_muc')
-            ->join('quan_ans', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.id')
-            ->select('danh_mucs.*', 'chi_tiet_danh_muc_quan_ans.id_quan_an', 'quan_ans.ten_quan_an', 'chi_tiet_danh_muc_quan_ans.id_danh_muc')
-            // ->where('chi_tiet_danh_muc_quan_ans.id_quan_an', $user->id)
-            ->whereNull('danh_mucs.id_danh_muc_cha')
-            ->get();
-
+        $data = DanhMuc::whereNull('id_danh_muc_cha')->get();
         return response()->json([
-            'data'      => $data
+            'data' => $data
         ]);
     }
     public function createDanhMuc(ThemMoiDanhMucRequest $request)

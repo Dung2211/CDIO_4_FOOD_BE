@@ -52,6 +52,30 @@ class KhachHangController extends Controller
             ]);
         }
     }
+    public function dangky(Request $request)
+    {
+        $check = KhachHang::where('email', $request->email)->first();
+        if ($check) {
+            return response()->json([
+                'status'    => 0,
+                'message'   => 'Email đã tồn tại!'
+            ]);
+        } else {
+            $data = KhachHang::create([
+                'ho_va_ten'     => $request->ho_va_ten,
+                'so_dien_thoai' => $request->so_dien_thoai,
+                'email'         => $request->email,
+                'password'      => $request->password,
+                'ngay_sinh'     => $request->ngay_sinh,
+            ]);
+            return response()->json([
+                'status'    => 1,
+                'message'   => 'Đăng ký thành công!',
+                'token'     => $data->createToken('token_khach_hang')->plainTextToken,
+                Auth::login($data)
+            ]);
+        }
+    }
     public function Login(KhachHangLoginRequest $request)
     {
         $res = Http::get("https://www.google.com/recaptcha/api/siteverify", [
@@ -79,6 +103,24 @@ class KhachHangController extends Controller
             return response()->json([
                 'status' => 0,
                 'message' => "Tài khoản hoặc mật khẩu không đúng.",
+            ]);
+        }
+    }
+    public function quenMatKhau(Request $request)
+    {
+        $check = KhachHang::where('email', $request->email)->first();
+        if ($check) {
+            $check->update([
+                'password' => $request->password
+            ]);
+            return response()->json([
+                'status'    => 1,
+                'message'   => 'Cập nhật mật khẩu thành công!'
+            ]);
+        } else {
+            return response()->json([
+                'status'    => 0,
+                'message'   => 'Email không tồn tại!'
             ]);
         }
     }

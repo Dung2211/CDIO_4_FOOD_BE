@@ -166,7 +166,7 @@ Route::post('/quan-an/voucher/update', [VoucherController::class, 'updateQuanAnV
 Route::post('/quan-an/voucher/delete', [VoucherController::class, 'deleteQuanAnVoucher'])->middleware('quanAnMiddle');
 Route::post('/quan-an/voucher/change', [VoucherController::class, 'doiTrangThaiQuanAnVoucher'])->middleware('quanAnMiddle');
 
-
+// quán ăn đơn hàng
 Route::get('/quan-an/don-hang/data', [DonHangController::class, 'getDonHangQuanAn'])->middleware('quanAnMiddle');
 Route::post('/quan-an/don-hang/da-xong', [DonHangController::class, 'daXongDonHang'])->middleware('quanAnMiddle');
 Route::post('/quan-an/don-hang/chi-tiet', [DonHangController::class, 'chiTietDonHangQuanAn'])->middleware('quanAnMiddle');
@@ -212,6 +212,8 @@ Route::post('/shipper/don-hang/thong-ke', [ThongkeController::class, 'dataThongK
 // khach-hang/dang nhập
 Route::get('/khach-hang/check-token', [KhachHangController::class, 'checkToken']);
 Route::post('/khach-hang/dang-nhap', [KhachHangController::class, 'Login']);
+Route::post('/khach-hang/quen-mat-khau', [KhachHangController::class, 'quenMatKhau']);
+Route::post('/khach-hang/dang-ky', [KhachHangController::class, 'dangKy']);
 Route::get('/khach-hang/dang-xuat', [KhachHangController::class, 'DangXuat']);
 Route::get('/khach-hang/dang-xuat-tat-ca', [KhachHangController::class, 'DangXuatAll']);
 
