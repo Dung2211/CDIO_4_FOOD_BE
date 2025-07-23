@@ -723,6 +723,7 @@ class QuanHuyenSeeder extends Seeder
             ['ten_quan_huyen' => 'Huyện Văn Chấn', 'id_tinh_thanh' => '64'],
             ['ten_quan_huyen' => 'Huyện Văn Yên', 'id_tinh_thanh' => '64'],
             ['ten_quan_huyen' => 'Huyện Yên Bình', 'id_tinh_thanh' => '64'],
+            ['ten_quan_huyen' => 'Huyện Sông Cầu', 'id_tinh_thanh' => '65'],
         ]);
 
     }

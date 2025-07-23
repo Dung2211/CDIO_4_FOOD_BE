@@ -168,7 +168,9 @@ Route::post('/quan-an/voucher/change', [VoucherController::class, 'doiTrangThaiQ
 
 // quán ăn đơn hàng
 Route::get('/quan-an/don-hang/data', [DonHangController::class, 'getDonHangQuanAn'])->middleware('quanAnMiddle');
-Route::post('/quan-an/don-hang/da-xong', [DonHangController::class, 'daXongDonHang'])->middleware('quanAnMiddle');
+Route::post('/quan-an/don-hang/tinh-trang', [DonHangController::class, 'tinhTrangDonHang'])->middleware('quanAnMiddle');
+Route::post('/quan-an/don-hang/xac-nhan', [DonHangController::class, 'xacNhanDonHang'])->middleware('quanAnMiddle');
+Route::post('/quan-an/don-hang/huy-don', [DonHangController::class, 'huyDonHang'])->middleware('quanAnMiddle');
 Route::post('/quan-an/don-hang/chi-tiet', [DonHangController::class, 'chiTietDonHangQuanAn'])->middleware('quanAnMiddle');
 
 // quan an / Cấu hình

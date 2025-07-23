@@ -21,12 +21,17 @@ class DonHang extends Model
         'tong_tien',
         'is_thanh_toan',
         'tinh_trang',
+        'trang_thai_quan',
     ];
 
-    const TINH_TRANG_CHUA_NHAN      = 0;
-    const TINH_TRANG_DA_NHAN        = 1;
-    const TINH_TRANG_QUAN_DANG_LAM  = 2;
-    const TINH_TRANG_DA_GIAO        = 3;
+    const TINH_TRANG_CHO_XAC_NHAN = 0;
+    const TINH_TRANG_DANG_LAM     = 1;
+    const TINH_TRANG_DA_XONG      = 2;
+    const TINH_TRANG_DA_GIAO      = 3;
+
+    const TRANG_THAI_QUAN_CHO_XAC_NHAN = 0;
+    const TRANG_THAI_QUAN_DA_XAC_NHAN  = 1;
+    const TRANG_THAI_QUAN_DA_HUY = -1;
 
     const TINH_TRANG_DA_HUY         = 4;
     const DA_THANH_TOAN             = 1;

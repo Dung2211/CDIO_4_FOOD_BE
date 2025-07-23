@@ -30,7 +30,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 100000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 5,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Giảm 10% cho đơn từ 100k'
             ],
             [
@@ -44,7 +44,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 50000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 11,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Miễn phí vận chuyển đơn từ 50k'
             ],
             [
@@ -58,7 +58,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 80000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 2,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Chào mừng khách mới - giảm 20%'
             ],
             [
@@ -72,7 +72,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 70000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 17,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Flash Sale 30% - Chỉ 5 ngày'
             ],
             [
@@ -86,7 +86,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 60000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 8,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Ưu đãi mùa hè 15%'
             ],
             [
@@ -100,7 +100,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 120000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 19,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Khách VIP giảm 25%'
             ],
             [
@@ -114,7 +114,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 50000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 6,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Mua nhiều giảm thêm 5%'
             ],
             [
@@ -128,7 +128,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 90000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 4,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Ngày may mắn giảm 40%'
             ],
             [
@@ -142,7 +142,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 100000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 9,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Giảm giá Tết 2025'
             ],
             [
@@ -156,7 +156,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 150000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 14,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Black Friday giảm 50%'
             ],
             [
@@ -170,7 +170,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 60000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 13,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Mùa tựu trường - giảm 10%'
             ],
             [
@@ -184,7 +184,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 80000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 7,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Quà sinh nhật 50k'
             ],
             [
@@ -198,7 +198,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 70000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 18,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Valentine ngọt ngào giảm 15%'
             ],
             [
@@ -212,7 +212,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 120000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 1,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Mừng năm mới 70k'
             ],
             [
@@ -226,7 +226,7 @@ class VoucherSeeder extends Seeder
                 'don_hang_toi_thieu' => 90000,
                 'tinh_trang' => 1,
                 'id_quan_an' => 10,
-                'hinh_anh' => 'images/voucher.png',
+                'hinh_anh' => 'images/voucher1.png',
                 'ten_voucher' => 'Ưu đãi ngày gia đình 30%'
             ]
         ]);

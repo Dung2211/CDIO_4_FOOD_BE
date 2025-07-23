@@ -14,7 +14,6 @@ class ThongkeController extends Controller
     public function thongkeDoanhThu(Request $request)
     {
         $user = Auth::guard('sanctum')->user();
-
         $data = DonHang::where('don_hangs.id_quan_an', $user->id)
                         ->where('is_thanh_toan', DonHang::DA_THANH_TOAN)
                         ->whereDate('created_at', '>=', $request->day_begin)
@@ -26,7 +25,6 @@ class ThongkeController extends Controller
                         )
                         ->groupBy('ngay_tao')
                         ->get();
-
         $list_ngay = [];
         $list_tong_tien_hang = [];
 

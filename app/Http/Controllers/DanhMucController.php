@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class DanhMucController extends Controller
 {
-    public function search(Request $request){
-        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+    public function search(Request $request)
+    {
+        $noi_dung_tim = '%' . $request->noi_dung_tim . '%';
         $data   =  DanhMuc::where('ten_danh_muc', 'like', $noi_dung_tim)
-                            ->get();
+            ->get();
         return response()->json([
             'data'  => $data
         ]);
@@ -25,18 +26,30 @@ class DanhMucController extends Controller
         $id_chuc_nang = 22;
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
+
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+
         if (!$check_quyen) {
             return response()->json([
-                'data' => false,
-                'message' => "bạn không có quyền thực hiện chức năng này!"
+                'status' => 0,
+                'message' => "Bạn không có quyền thực hiện chức năng này!"
             ]);
         }
-        $data = DanhMuc::join('danh_mucs as A', 'A.id', 'danh_mucs.id_danh_muc_cha')
-                        ->select('danh_mucs.*', 'A.ten_danh_muc as ten_danh_muc_cha')
-                        ->get();
+
+        $data = DanhMuc::leftJoin('danh_mucs as A', 'A.id', '=', 'danh_mucs.id_danh_muc_cha')
+            ->whereNull('danh_mucs.id_danh_muc_cha')
+            ->select(
+                'danh_mucs.id',
+                'danh_mucs.ten_danh_muc',
+                'danh_mucs.slug_danh_muc',
+                'danh_mucs.hinh_anh',
+                'danh_mucs.tinh_trang',
+                'A.ten_danh_muc as ten_danh_muc_cha'
+            )
+            ->get();
+
         return response()->json([
             'status' => 1,
             'data' => $data
@@ -48,8 +61,8 @@ class DanhMucController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -68,8 +81,8 @@ class DanhMucController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -89,8 +102,8 @@ class DanhMucController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,
@@ -110,8 +123,8 @@ class DanhMucController extends Controller
         $login = Auth::guard('sanctum')->user();
         $id_chuc_vu = $login->id_chuc_vu;
         $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-                                ->where('id_chuc_nang', $id_chuc_nang)
-                                ->first();
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
         if (!$check_quyen) {
             return response()->json([
                 'data' => false,

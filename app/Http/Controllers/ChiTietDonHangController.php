@@ -288,7 +288,8 @@ class ChiTietDonHangController extends Controller
             'phi_ship'          =>  $phi_ship,
             'tong_tien'         =>  $gio_hang->sum('thanh_tien') + $phi_ship,
             'is_thanh_toan'     =>  0,
-            'tinh_trang'        =>  0,
+            'tinh_trang'        =>  0,   // Chưa nhận
+            'trang_thai_quan'   =>  0,   // chờ xác nhận
         ]);
 
         ChiTietDonHang::where('id_don_hang', 0)
