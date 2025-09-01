@@ -68,7 +68,6 @@ Route::post('/admin/danh-muc/change-status', [DanhMucController::class, 'changeS
 
 // Admin - Khách Hàng
 Route::get('/admin/khach-hang/data', [KhachHangController::class, 'getData'])->middleware('nhanVienMiddle');
-Route::post('/admin/khach-hang/create', [KhachHangController::class, 'store'])->middleware('nhanVienMiddle');
 Route::post('/admin/khach-hang/delete', [KhachHangController::class, 'destroy'])->middleware('nhanVienMiddle');
 Route::post('/admin/khach-hang/update', [KhachHangController::class, 'update'])->middleware('nhanVienMiddle');
 Route::post('/admin/khach-hang/change-status', [KhachHangController::class, 'changeStatus'])->middleware('nhanVienMiddle');
@@ -76,7 +75,6 @@ Route::post('/admin/khach-hang/change-active', [KhachHangController::class, 'cha
 
 // Admin - Quán Ăn
 Route::get('/admin/quan-an/data', [QuanAnController::class, 'getData'])->middleware('nhanVienMiddle');
-Route::post('/admin/quan-an/create', [QuanAnController::class, 'store'])->middleware('nhanVienMiddle');
 Route::post('/admin/quan-an/delete', [QuanAnController::class, 'destroy'])->middleware('nhanVienMiddle');
 Route::post('/admin/quan-an/update', [QuanAnController::class, 'update'])->middleware('nhanVienMiddle');
 Route::post('/admin/quan-an/change-status', [QuanAnController::class, 'changeStatus'])->middleware('nhanVienMiddle');
@@ -106,12 +104,7 @@ Route::post('/admin/quan-huyen/delete', [QuanHuyenController::class, 'destroy'])
 Route::post('/admin/quan-huyen/update', [QuanHuyenController::class, 'update'])->middleware('nhanVienMiddle');
 Route::post('/admin/quan-huyen/change-status', [QuanHuyenController::class, 'changeStatus'])->middleware('nhanVienMiddle');
 
-// Admin - Món Ăn
-Route::get('/admin/mon-an/data', [MonAnController::class, 'getData'])->middleware('nhanVienMiddle');
-Route::post('/admin/mon-an/create', [MonAnController::class, 'store'])->middleware('nhanVienMiddle');
-Route::post('/admin/mon-an/delete', [MonAnController::class, 'destroy'])->middleware('nhanVienMiddle');
-Route::post('/admin/mon-an/update', [MonAnController::class, 'update'])->middleware('nhanVienMiddle');
-Route::post('/admin/mon-an/change-status', [MonAnController::class, 'changeStatus'])->middleware('nhanVienMiddle');
+
 
 // Admin - Nhân Viên
 Route::get('/admin/nhan-vien/data', [NhanVienController::class, 'getData'])->middleware('nhanVienMiddle');
@@ -239,8 +232,8 @@ Route::get('/khach-hang/trang-chu/data', [ClientHomeController::class, 'getDataH
 Route::get('/khach-hang/quan-an/data', [ClientHomeController::class, 'getDataQuanAn'])->middleware('khachHangMiddle');
 
 // Khach-hang/don-dat-hang
-Route::get('/khach-hang/don-dat-hang/{id_quan_an}', [ChiTietDonHangController::class, 'getDonDatHang']);
-Route::get('/khach-hang/xac-nhan-dat-hang/{id_quan_an}/{id_dia_chi_khach}', [ChiTietDonHangController::class, 'xacNhanDatHang']);
+Route::get('/khach-hang/don-dat-hang/{id_quan_an}', [ChiTietDonHangController::class, 'getDonDatHang']); //Lấy thông tin quán, món, giỏ hàng, địa chỉ khách
+Route::get('/khach-hang/xac-nhan-dat-hang/{id_quan_an}/{id_dia_chi_khach}', [ChiTietDonHangController::class, 'xacNhanDatHang']); //Xác nhận đơn hàng
 Route::post('/khach-hang/don-dat-hang/create', [ChiTietDonHangController::class, 'themGioHang']);
 Route::post('/khach-hang/don-dat-hang/update', [ChiTietDonHangController::class, 'updateGioHang']);
 Route::post('/khach-hang/don-dat-hang/delete', [ChiTietDonHangController::class, 'deleteGioHang']);

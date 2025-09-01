@@ -165,41 +165,7 @@ class QuanAnController extends Controller
             'data' => $data
         ]);
     }
-
-    public function store(QuanAnThemMoiRequest $request)
-    {
-        $id_chuc_nang = 29;
-        $login = Auth::guard('sanctum')->user();
-        $id_chuc_vu = $login->id_chuc_vu;
-        $check_quyen = PhanQuyen::where('id_chuc_vu', $id_chuc_vu)
-            ->where('id_chuc_nang', $id_chuc_nang)
-            ->first();
-        if (!$check_quyen) {
-            return response()->json([
-                'data' => false,
-                'message' => "bạn không có quyền thực hiện chức năng này!"
-            ]);
-        }
-        QuanAn::create([
-            'email'                 => $request->email,
-            'password'              => $request->password,
-            'ma_so_thue'            => $request->ma_so_thue,
-            'ten_quan_an'           => $request->ten_quan_an,
-            'gio_mo_cua'            => $request->gio_mo_cua,
-            'gio_dong_cua'          => $request->gio_dong_cua,
-            'so_dien_thoai'         => $request->so_dien_thoai,
-            'is_active'             => $request->is_active,
-            'tinh_trang'            => $request->tinh_trang,
-            'dia_chi'               => $request->dia_chi,
-            'id_quan_huyen'         => $request->id_quan_huyen,
-        ]);
-        return response()->json([
-            'status'    => 1,
-            'message'   => 'Thêm mới quán ăn thành công!',
-        ]);
-    }
-
-    public function update(QuanAnUpdateRequest $request)
+   public function update(QuanAnUpdateRequest $request)
     {
         $id_chuc_nang = 30;
         $login = Auth::guard('sanctum')->user();

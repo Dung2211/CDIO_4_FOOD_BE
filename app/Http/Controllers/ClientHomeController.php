@@ -30,12 +30,12 @@ class ClientHomeController extends Controller
             ->where('vouchers.thoi_gian_ket_thuc', '>=', now())
             ->join('quan_ans', 'quan_ans.id', 'vouchers.id_quan_an')
             ->select('vouchers.*', 'quan_ans.ten_quan_an')
-            ->take(4)
+
             ->get();
 
         $phan_loai = DanhMuc::where('tinh_trang', 1)
             ->get();
-
+        // Lấy danh sách món ăn theo từng loại
         return response()->json([
             'mon_an'                => $mon_an,
             'voucher'               => $voucher,

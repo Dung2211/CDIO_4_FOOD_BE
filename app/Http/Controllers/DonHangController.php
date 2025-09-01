@@ -327,15 +327,4 @@ class DonHangController extends Controller
         ]);
     }
 
-    public function huyDonHangAdmin(HuyDonHangRequest $request)
-    {
-        DonHang::where('id', $request->id)->update([
-            'tinh_trang'    => 4
-        ]);
-
-        return response()->json([
-            'status'    => 1,
-            'message'   => "Đã hủy đơn hàng thành công!!",
-        ]);
-    }
 }
