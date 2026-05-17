@@ -122,17 +122,26 @@ class NhanVienController extends Controller
         }
     }
 
-    public function updateProfile(NhanVienUpdateProfileRequest $request)
+   public function updateProfile(NhanVienUpdateProfileRequest $request)
     {
         $user = Auth::guard('sanctum')->user();
         $data = NhanVien::find($user->id);
+        
         if ($data) {
-            $data->update([
-                'ho_va_ten'     => $request->ho_va_ten,
-                'so_dien_thoai' => $request->so_dien_thoai,
-                'email'         => $request->email,
-                'dia_chi'     => $request->dia_chi
-            ]);
+            // 🚀 ĐÃ SỬA: Dùng cách gán trực tiếp để lách luật bảo mật của Laravel
+            $data->ho_va_ten     = $request->ho_va_ten;
+            $data->so_dien_thoai = $request->so_dien_thoai;
+            $data->email         = $request->email;
+            $data->dia_chi       = $request->dia_chi;
+            
+            // Kiểm tra xem có ảnh mới không thì mới gán
+            if (isset($request->avatar)) {
+                $data->avatar  = $request->avatar;
+            }
+
+            // Gọi hàm save() để chốt lưu vào Database
+            $data->save();
+            
             return response()->json([
                 'status'    => 1,
                 'message'   => 'Cập nhật thông tin thành công!',

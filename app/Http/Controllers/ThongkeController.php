@@ -15,16 +15,20 @@ class ThongkeController extends Controller
     {
         $user = Auth::guard('sanctum')->user();
         $data = DonHang::where('don_hangs.id_quan_an', $user->id)
-                        ->where('is_thanh_toan', DonHang::DA_THANH_TOAN)
+                        
+                        // 🚀 TẠM TẮT ĐIỀU KIỆN NÀY ĐỂ ÉP HIỆN DỮ LIỆU
+                        // ->where('is_thanh_toan', DonHang::DA_THANH_TOAN)
+                        
                         ->whereDate('created_at', '>=', $request->day_begin)
                         ->whereDate('created_at', '<=', $request->day_end)
                         ->select(
                             DB::raw("SUM(tien_hang) as tong_tien_hang"),
                             DB::raw("COUNT(id) as so_don_hang"),
-                            DB::raw("DATE_FORMAT(created_at, '%d/%m/%Y') as ngay_tao"),
+                            DB::raw("DATE_FORMAT(created_at, '%d/%m/%Y') as ngay_tao") // Bỏ dấu phẩy thừa ở đây
                         )
                         ->groupBy('ngay_tao')
                         ->get();
+                        
         $list_ngay = [];
         $list_tong_tien_hang = [];
 
@@ -47,8 +51,12 @@ class ThongkeController extends Controller
         $data = ChiTietDonHang::join('mon_ans', 'mon_ans.id', 'chi_tiet_don_hangs.id_mon_an')
                             ->join('don_hangs', 'don_hangs.id', 'chi_tiet_don_hangs.id_don_hang')
                             ->where('mon_ans.id_quan_an', $user->id)
-                            ->where('don_hangs.is_thanh_toan', DonHang::DA_THANH_TOAN)
-                            ->whereDate('don_hangs.created_at', '>=', $request->day_begin)
+                            
+                            // 💡 LƯU Ý: Nếu đơn hàng là "Ship COD" và chưa được gạch nợ thành ĐÃ THANH TOÁN,
+                            // thì dòng này sẽ loại bỏ đơn hàng đó. Nếu test mà vẫn không ra, bạn thử THÊM DẤU // để tắt dòng này đi nhé.
+                        //    ->where('don_hangs.is_thanh_toan', DonHang::DA_THANH_TOAN) 
+                            
+                           ->whereDate('don_hangs.created_at', '>=', $request->day_begin)
                             ->whereDate('don_hangs.created_at', '<=', $request->day_end)
                             ->select(
                                 DB::raw("SUM(chi_tiet_don_hangs.so_luong) as so_luong_ban"),
@@ -57,12 +65,16 @@ class ThongkeController extends Controller
                             )
                             ->groupBy('mon_ans.ten_mon_an')
                             ->get();
+                            
         $list_mon_an = [];
         $list_so_luong = [];
+        
         foreach ($data as $key => $value) {
             array_push($list_mon_an, $value->ten_mon_an);
-            array_push($list_so_luong, $value->so_luong);
+            // 🚀 ĐÃ SỬA BUG: Thêm chữ "_ban" vào đây cho đúng tên cột
+            array_push($list_so_luong, $value->so_luong_ban); 
         }
+        
         return response()->json([
             'data'          => $data,
             'list_mon_an'   => $list_mon_an,

@@ -282,20 +282,32 @@ class ShipperController extends Controller
             ]);
         }
     }
-    public function updateSP(updateProFileShipperRequest $request)
+   public function updateSP(updateProFileShipperRequest $request)
     {
         $user_login = Auth::guard('sanctum')->user();
+        
         if ($user_login) {
-            Shipper::where('id', $user_login->id)->update([
-                'ho_va_ten'     => $request->ho_va_ten,
-                'password'      => $request->password,
-                'cccd'          => $request->cccd,
-                'so_dien_thoai' => $request->so_dien_thoai,
-            ]);
-            return response()->json([
-                'status'    => 1,
-                'message'   => 'Cập nhật thông tin thành công!'
-            ]);
+            $shipper = Shipper::find($user_login->id);
+            
+            if ($shipper) {
+                // Gán các thông tin cơ bản
+                $shipper->ho_va_ten     = $request->ho_va_ten;
+                $shipper->cccd          = $request->cccd;
+                $shipper->so_dien_thoai = $request->so_dien_thoai;
+                
+                // 🚀 ĐÃ BỔ SUNG: Kiểm tra và lưu ảnh Avatar mới (Nhớ đảm bảo trong DB bảng shippers có cột tên là 'avatar' nhé)
+                if (isset($request->avatar)) {
+                    $shipper->avatar = $request->avatar;
+                }
+
+                // Chốt lưu vào Database
+                $shipper->save();
+
+                return response()->json([
+                    'status'    => 1,
+                    'message'   => 'Cập nhật thông tin thành công!'
+                ]);
+            }
         } else {
             return response()->json([
                 'status'    => 0,

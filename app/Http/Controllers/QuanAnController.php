@@ -620,17 +620,20 @@ class QuanAnController extends Controller
         }
     }
 
-    public function updateProfile(QuanAnUpdateProfileRequest $request)
+   public function updateProfile(QuanAnUpdateProfileRequest $request)
     {
         $user = Auth::guard('sanctum')->user();
         $data = QuanAn::find($user->id);
+        
         if ($data) {
             $data->update([
-                'ten_quan_an'     => $request->ten_quan_an,
+                'ten_quan_an'   => $request->ten_quan_an,
                 'so_dien_thoai' => $request->so_dien_thoai,
                 'email'         => $request->email,
-                'dia_chi'       => $request->dia_chi
+                'dia_chi'       => $request->dia_chi,
+                'hinh_anh'      => $request->hinh_anh // 🚀 ĐÃ BỔ SUNG DÒNG NÀY ĐỂ LƯU ẢNH
             ]);
+            
             return response()->json([
                 'status'    => 1,
                 'message'   => 'Cập nhật thông tin thành công!',
