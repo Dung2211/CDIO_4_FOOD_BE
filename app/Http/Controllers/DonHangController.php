@@ -172,6 +172,8 @@ class DonHangController extends Controller
             'dia_chis.dia_chi as dia_chi_khach',
             'don_hangs.tong_tien',
             'don_hangs.phi_ship',
+            'don_hangs.tien_hang',         // Thêm dòng này để lấy giá trị đơn hàng
+            'don_hangs.is_thanh_toan',     // Thêm dòng này để biết COD hay Momo
         )
         ->get();
 
@@ -205,6 +207,8 @@ class DonHangController extends Controller
             'don_hangs.tong_tien',
             'don_hangs.phi_ship',
             'don_hangs.tinh_trang',
+            'don_hangs.tien_hang',         // Thêm dòng này để lấy giá trị đơn hàng
+            'don_hangs.is_thanh_toan',     // Thêm dòng này để biết COD hay Momo
         )
         ->get();
 
@@ -324,6 +328,23 @@ class DonHangController extends Controller
             ->get();
         return response()->json([
             'data'  => $data
+        ]);
+    }
+    public function getChiTietDonHangShipper(Request $request)
+    {
+        $data = ChiTietDonHang::where('chi_tiet_don_hangs.id_don_hang', $request->id)
+            ->join('mon_ans', 'mon_ans.id', 'chi_tiet_don_hangs.id_mon_an')
+            ->select(
+                'mon_ans.ten_mon_an',
+                'chi_tiet_don_hangs.so_luong',
+                'chi_tiet_don_hangs.don_gia',
+                'chi_tiet_don_hangs.thanh_tien',
+                'chi_tiet_don_hangs.ghi_chu',
+            )
+            ->get();
+        return response()->json([
+            'status' => 1,
+            'data'   => $data
         ]);
     }
 

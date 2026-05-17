@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 
 class KhachHangController extends Controller
 {
@@ -53,8 +54,9 @@ class KhachHangController extends Controller
             ]);
         }
     }
-    public function dangky(Request $request)
+ public function dangky(Request $request)
     {
+        // 1. Kiểm tra email tồn tại
         $check = KhachHang::where('email', $request->email)->first();
         if ($check) {
             return response()->json([
@@ -62,25 +64,30 @@ class KhachHangController extends Controller
                 'message'   => 'Email đã tồn tại!'
             ]);
         } else {
+            // 2. Tạo tài khoản mới (Nhớ mã hóa mật khẩu)
             $data = KhachHang::create([
                 'ho_va_ten'     => $request->ho_va_ten,
                 'so_dien_thoai' => $request->so_dien_thoai,
                 'email'         => $request->email,
-                'password'      => $request->password,
+                'password'      => Hash::make($request->password), // Sửa ở đây: Mã hóa mật khẩu
                 'ngay_sinh'     => $request->ngay_sinh,
             ]);
+
+            // 3. Đăng nhập cho user (Phải viết ngoài lệnh return)
+            Auth::login($data);
+
+            // 4. Trả kết quả về cho Frontend
             return response()->json([
                 'status'    => 1,
                 'message'   => 'Đăng ký thành công!',
                 'token'     => $data->createToken('token_khach_hang')->plainTextToken,
-                Auth::login($data)
             ]);
         }
     }
     public function Login(KhachHangLoginRequest $request)
     {
         $res = Http::get("https://www.google.com/recaptcha/api/siteverify", [
-            'secret'    => "6LftzRorAAAAAE0IHevZsTvnvUxU16FIK4dcYLY5",
+            'secret'    => env('RECAPTCHA_SECRET_KEY'),
             'response'  => $request->code,
         ]);
 
@@ -91,10 +98,10 @@ class KhachHangController extends Controller
             ]);
         }
 
-        $check = KhachHang::where('email', $request->email)
-            ->where('password', $request->password)
-            ->first();
-        if ($check) {
+        $check = KhachHang::where('email', $request->email)->first();
+        
+        // 2. Dùng hàm Hash::check để giải mã và so sánh mật khẩu
+        if ($check && Hash::check($request->password, $check->password)) {
             return response()->json([
                 'status' => 1,
                 'message' => "Đăng nhập thành công!",
@@ -112,7 +119,8 @@ class KhachHangController extends Controller
         $check = KhachHang::where('email', $request->email)->first();
         if ($check) {
             $check->update([
-                'password' => $request->password
+                // 🚀 BẮT BUỘC PHẢI THÊM Hash::make Ở ĐÂY:
+                'password' => Hash::make($request->password) 
             ]);
             return response()->json([
                 'status'    => 1,
@@ -286,7 +294,8 @@ class KhachHangController extends Controller
                 'ho_va_ten'     => $request->ho_va_ten,
                 'so_dien_thoai' => $request->so_dien_thoai,
                 'email'         => $request->email,
-                'ngay_sinh'     => $request->ngay_sinh
+                'ngay_sinh'     => $request->ngay_sinh,
+                'avatar'        => $request->avatar, // 🚀 MÌNH VỪA THÊM DÒNG LƯU ẢNH Ở ĐÂY NÀY
             ]);
             return response()->json([
                 'status'    => 1,
@@ -300,16 +309,21 @@ class KhachHangController extends Controller
         }
     }
 
-    public function updatePassword(updatePasswordKhachHangRequest $request)
+public function updatePassword(updatePasswordKhachHangRequest $request)
     {
         $user = Auth::guard('sanctum')->user();
-        $data = KhachHang::where('id', $user->id)
-            ->where('password', $request->old_password)
-            ->first();
-        if ($data) {
+        
+        // 1. Tìm tài khoản khách hàng bằng ID
+        $data = KhachHang::find($user->id);
+        
+        // 2. Dùng Hash::check để giải mã và so sánh mật khẩu cũ
+        if ($data && Hash::check($request->old_password, $data->password)) {
+            
+            // 3. Cập nhật mật khẩu mới (NHỚ PHẢI MÃ HÓA BẰNG Hash::make)
             $data->update([
-                'password' => $request->password,
+                'password' => Hash::make($request->password), 
             ]);
+            
             return response()->json([
                 'status'    => 1,
                 'message'   => 'Cập nhật mật khẩu thành công!',

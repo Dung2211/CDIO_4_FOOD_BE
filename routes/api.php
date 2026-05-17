@@ -199,6 +199,7 @@ Route::get('/shipper/don-hang/data', [DonHangController::class, 'getDonHangShipp
 Route::get('/shipper/don-hang/data-dang-giao', [DonHangController::class, 'getDonHangShipperDangGiao'])->middleware('shipperMiddle');
 Route::post('/shipper/don-hang/nhan-don', [DonHangController::class, 'nhanDonDonHangShipper'])->middleware('shipperMiddle');
 Route::post('/shipper/don-hang/hoan-thanh', [DonHangController::class, 'hoanThanhDonHangShipper'])->middleware('shipperMiddle');
+Route::post('/shipper/don-hang/data-chi-tiet', [DonHangController::class, 'getChiTietDonHangShipper'])->middleware('shipperMiddle');
 
 Route::post('/shipper/don-hang/thong-ke', [ThongkeController::class, 'dataThongKeShipper'])->middleware('shipperMiddle');
 
