@@ -165,6 +165,7 @@ Route::post('/quan-an/don-hang/tinh-trang', [DonHangController::class, 'tinhTran
 Route::post('/quan-an/don-hang/xac-nhan', [DonHangController::class, 'xacNhanDonHang'])->middleware('quanAnMiddle');
 Route::post('/quan-an/don-hang/huy-don', [DonHangController::class, 'huyDonHang'])->middleware('quanAnMiddle');
 Route::post('/quan-an/don-hang/chi-tiet', [DonHangController::class, 'chiTietDonHangQuanAn'])->middleware('quanAnMiddle');
+Route::get('/quan-an/danh-gia/data', [QuanAnController::class, 'getDanhGia'])->middleware('quanAnMiddle');
 
 // quan an / Cấu hình
 Route::post('/quan-an/cau-hinh', [CauHinhQuanAnController::class, 'cauHinhQuanAn'])->middleware('quanAnMiddle');
@@ -243,3 +244,4 @@ Route::post('/khach-hang/don-dat-hang/phi-ship', [ChiTietDonHangController::clas
 // khach-hang/don-hang
 Route::get('/khach-hang/don-hang/data', [DonHangController::class, 'getDonHangKhachHang'])->middleware('khachHangMiddle');
 Route::post('/khach-hang/don-hang/data-chi-tiet', [DonHangController::class, 'getChiTietDonHangKhachHang'])->middleware('khachHangMiddle');
+Route::post('/khach-hang/danh-gia/create', [KhachHangController::class, 'taoDanhGia'])->middleware('khachHangMiddle');

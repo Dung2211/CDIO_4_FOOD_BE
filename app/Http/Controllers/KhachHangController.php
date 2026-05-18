@@ -483,4 +483,35 @@ public function updatePassword(updatePasswordKhachHangRequest $request)
             ]);
         }
     }
+    public function taoDanhGia(Request $request)
+    {
+        $user_login = Auth::guard('sanctum')->user();
+        
+        if ($user_login) {
+            // 1. Lưu nội dung đánh giá vào bảng danh_gias
+            DB::table('danh_gias')->insert([
+                'id_don_hang'   => $request->id_don_hang,
+                'id_khach_hang' => $user_login->id,
+                'so_sao'        => $request->so_sao,
+                'noi_dung'      => $request->noi_dung,
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ]);
+
+            // 2. Cập nhật lại đơn hàng là đã đánh giá (để Vue ẩn nút đi)
+            DB::table('don_hangs')->where('id', $request->id_don_hang)->update([
+                'is_danh_gia' => 1
+            ]);
+
+            return response()->json([
+                'status'    => 1,
+                'message'   => 'Cảm ơn bạn đã đánh giá!'
+            ]);
+        } else {
+            return response()->json([
+                'status'    => 0,
+                'message'   => 'Bạn cần đăng nhập để đánh giá!'
+            ]);
+        }
+    }
 }

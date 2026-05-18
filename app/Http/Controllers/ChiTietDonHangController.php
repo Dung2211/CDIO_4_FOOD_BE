@@ -60,16 +60,23 @@ class ChiTietDonHangController extends Controller
             $link_get = 'https://api.openrouteservice.org/geocode/search';
             $dia_chi_quan  = QuanAn::where('id', $request->id_quan_an)->first();
             
-            // 🚀 SỬA Ở ĐÂY: Join bảng để lấy full địa chỉ của khách hàng
             $dia_chi_khach = DiaChi::where('dia_chis.id', $request->id_dia_chi_khach)
                                 ->join('quan_huyens', 'dia_chis.id_quan_huyen', 'quan_huyens.id')
                                 ->join('tinh_thanhs', 'quan_huyens.id_tinh_thanh', 'tinh_thanhs.id')
                                 ->select('dia_chis.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
                                 ->first();
 
-            // Ghép thành chuỗi địa chỉ hoàn chỉnh
-            $full_dia_chi_khach = $dia_chi_khach->dia_chi . ', ' . $dia_chi_khach->ten_quan_huyen . ', ' . $dia_chi_khach->ten_tinh_thanh;
-            $full_dia_chi_quan  = $dia_chi_quan->dia_chi . ', Đà Nẵng'; // Đề phòng địa chỉ quán viết tắt
+            // 🚀 VẪN GIỮ LỚP PHÒNG THỦ 1: CHẶN KHÁC TỈNH/THÀNH PHỐ
+            if (mb_stripos($dia_chi_khach->ten_tinh_thanh, 'Đà Nẵng') === false) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Rất tiếc, quán chỉ hỗ trợ giao hàng trong khu vực Đà Nẵng!'
+                ]);
+            }
+
+            // Sửa 2 dòng này:
+                $full_dia_chi_khach = $dia_chi_khach->dia_chi . ', ' . $dia_chi_khach->ten_quan_huyen . ', ' . $dia_chi_khach->ten_tinh_thanh . ', Việt Nam';
+                $full_dia_chi_quan  = $dia_chi_quan->dia_chi . ', Đà Nẵng, Việt Nam';
 
             $client = new Client();
 
@@ -91,7 +98,6 @@ class ChiTietDonHangController extends Controller
             $body_khach = json_decode($response_khach->getBody()->getContents(), true);
             $toa_do_khach = $body_khach['features'][0]['geometry']['coordinates'] ?? null;
 
-            // 🔴 NẾU BẢN ĐỒ KHÔNG TÌM RA ĐỊA CHỈ THÌ ÁP DỤNG PHÍ SHIP MẶC ĐỊNH
             if(!$toa_do_quan || !$toa_do_khach) {
                 return response()->json(['status' => true, 'phi_ship' => 15000]);
             }
@@ -113,13 +119,18 @@ class ChiTietDonHangController extends Controller
 
             $khoang_cach_km  = $khoang_cach_met / 1000;
 
-            // Chốt chặn 20km
-            if ($khoang_cach_km > 20) {
-                $phi_ship = 15000;
+            // 🚀 BỔ SUNG CHỐT CHẶN BẢN ĐỒ LỖI TỌA ĐỘ
+            if ($khoang_cach_km > 40) {
+                // Nếu khoảng cách > 40km -> Bản đồ ghim sai vị trí. 
+                // Fix cứng lấy phí ship đồng giá xa nhất là 50.000đ (hoặc tùy bạn chỉnh)
+                $phi_ship = 100000;
             } else {
-                $phi_ship = round($khoang_cach_km * 25000, -3); // 25.000đ/1km
-                if ($phi_ship < 15000) {
-                    $phi_ship = 15000;
+                // Mách nhỏ: 25k/1km là giá xe taxi rồi, mình giảm xuống 15k hoặc 10k/km cho giống giá shipper nhé 😂
+                $phi_ship = round($khoang_cach_km * 10000, -3); 
+                
+                // Phí ship tối thiểu
+                if ($phi_ship < 10000) {
+                    $phi_ship = 10000;
                 }
             }
 
@@ -205,7 +216,7 @@ class ChiTietDonHangController extends Controller
         ]);
     }
 
-   public function xacNhanDatHang($id_quan_an, $id_dia_chi_khach)
+  public function xacNhanDatHang($id_quan_an, $id_dia_chi_khach)
     {
         $gio_hang = ChiTietDonHang::where('id_don_hang', 0)
                                     ->where('id_khach_hang', Auth::guard('sanctum')->user()->id)
@@ -218,15 +229,15 @@ class ChiTietDonHangController extends Controller
             $link_get = 'https://api.openrouteservice.org/geocode/search';
             $dia_chi_quan  = QuanAn::where('id', $id_quan_an)->first();
             
-            // 🚀 SỬA Ở ĐÂY CHO ĐỒNG BỘ: Join bảng để lấy full địa chỉ lúc xác nhận đơn hàng
             $dia_chi_khach = DiaChi::where('dia_chis.id', $id_dia_chi_khach)
                                 ->join('quan_huyens', 'dia_chis.id_quan_huyen', 'quan_huyens.id')
                                 ->join('tinh_thanhs', 'quan_huyens.id_tinh_thanh', 'tinh_thanhs.id')
                                 ->select('dia_chis.*', 'quan_huyens.ten_quan_huyen', 'tinh_thanhs.ten_tinh_thanh')
                                 ->first();
 
-            $full_dia_chi_khach = $dia_chi_khach->dia_chi . ', ' . $dia_chi_khach->ten_quan_huyen . ', ' . $dia_chi_khach->ten_tinh_thanh;
-            $full_dia_chi_quan  = $dia_chi_quan->dia_chi . ', Đà Nẵng';
+            // 🚀 ĐÃ ĐỒNG BỘ: Thêm chữ Việt Nam để không bị ngáo tọa độ
+            $full_dia_chi_khach = $dia_chi_khach->dia_chi . ', ' . $dia_chi_khach->ten_quan_huyen . ', ' . $dia_chi_khach->ten_tinh_thanh . ', Việt Nam';
+            $full_dia_chi_quan  = $dia_chi_quan->dia_chi . ', Đà Nẵng, Việt Nam';
 
             $client = new Client();
 
@@ -248,11 +259,15 @@ class ChiTietDonHangController extends Controller
                     $phi_ship = 15000;
                 } else {
                     $khoang_cach_km = $khoang_cach_met / 1000;
-                    if ($khoang_cach_km > 20) {
-                        $phi_ship = 15000;
+                    
+                    // 🚀 ĐÃ ĐỒNG BỘ: Logic tính tiền chuẩn (10k/km, chốt chặn 100k)
+                    if ($khoang_cach_km > 40) {
+                        $phi_ship = 100000;
                     } else {
-                        $phi_ship = round($khoang_cach_km * 25000, -3);
-                        if ($phi_ship < 15000) $phi_ship = 15000;
+                        $phi_ship = round($khoang_cach_km * 10000, -3);
+                        if ($phi_ship < 10000) {
+                            $phi_ship = 10000;
+                        }
                     }
                 }
             }
@@ -274,7 +289,7 @@ class ChiTietDonHangController extends Controller
             'ten_nguoi_nhan'    =>  $dia_chi_khach->ten_nguoi_nhan,
             'so_dien_thoai'     =>  $dia_chi_khach->so_dien_thoai,
             'tien_hang'         =>  $gio_hang->sum('thanh_tien'),
-            'phi_ship'          =>  $phi_ship,
+            'phi_ship'          =>  $phi_ship, // Lúc này tiền ship lưu vào DB đã chuẩn xác 100%
             'tong_tien'         =>  $gio_hang->sum('thanh_tien') + $phi_ship,
             'is_thanh_toan'     =>  $trang_thai_thanh_toan,
             'tinh_trang'        =>  0,   

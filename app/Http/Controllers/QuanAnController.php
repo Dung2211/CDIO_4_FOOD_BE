@@ -645,4 +645,29 @@ class QuanAnController extends Controller
             ]);
         }
     }
+    public function getDanhGia()
+    {
+        // Lấy thông tin quán ăn đang đăng nhập
+        $user_login = Auth::guard('sanctum')->user();
+        
+        if ($user_login) {
+            // Nối 3 bảng: danh_gias, don_hangs, khach_hangs để lấy đầy đủ thông tin
+            $data = DB::table('danh_gias')
+                ->join('don_hangs', 'danh_gias.id_don_hang', '=', 'don_hangs.id')
+                ->join('khach_hangs', 'danh_gias.id_khach_hang', '=', 'khach_hangs.id')
+                ->where('don_hangs.id_quan_an', $user_login->id)
+                ->select(
+                    'danh_gias.*', 
+                    'khach_hangs.ho_va_ten as ten_khach_hang', 
+                    'don_hangs.ma_don_hang'
+                )
+                ->orderBy('danh_gias.created_at', 'DESC')
+                ->get();
+
+            return response()->json([
+                'status' => 1,
+                'data' => $data
+            ]);
+        }
+    }
 }
